@@ -11,7 +11,7 @@ html {
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
-    background-color: #1a2a3a;
+    background: radial-gradient(ellipse at 50% 0%, #1e3a5f 0%, #1a2a3a 50%, #111d2b 100%);
 }
 
 /* === Barra de navegação === */
@@ -33,10 +33,17 @@ body {
     background-color: #0a0a0a;
 }
 
+/* === NOME COM GRADIENTE === */
 .nav-nome {
-    color: white;
     font-size: 22px;
     white-space: nowrap;
+}
+
+.nome {
+    color: transparent;
+    -webkit-text-stroke: 1.5px #60a5fa;
+    font-size: 24px;
+    letter-spacing: 2px;
 }
 
 .nav-botoes {
@@ -45,25 +52,29 @@ body {
     flex-wrap: nowrap;
 }
 
+/* === BOTÕES COM HOVER RICO === */
 .btn-nav {
     background-color: transparent;
     color: white;
-    border: 1.5px solid white;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
     border-radius: 6px;
     padding: 10px 18px;
     font-size: 14px;
     cursor: pointer;
     text-align: center;
     line-height: 1.3;
-    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.25s, transform 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
     text-decoration: none;
     display: inline-block;
     white-space: nowrap;
 }
 
 .btn-nav:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(74, 158, 218, 0.15);
+    border-color: #4a9eda;
+    color: #7ab3e0;
     transform: translateY(-2px);
+    box-shadow: 0 0 12px rgba(74, 158, 218, 0.3);
 }
 
 /* === CONTEÚDO (home) === */
@@ -218,6 +229,38 @@ body {
     text-decoration: underline;
 }
 
+/* === SEÇÕES COM IMAGEM === */
+.secao-conteudo {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-top: 10px;
+}
+
+.secao-conteudo-invertido {
+    flex-direction: row-reverse;
+}
+
+.secao-conteudo p {
+    margin-top: 0;
+    flex: 1;
+}
+
+.secao-imagem {
+    width: 420px;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 12px;
+    transition: transform 0.3s, filter 0.3s;
+    filter: brightness(0.95);
+}
+
+.secao-imagem:hover {
+    transform: scale(1.03) translateY(-4px);
+    filter: brightness(1.05);
+}
+
 /* === CONTATO === */
 .contato-grid {
     display: flex;
@@ -281,36 +324,4 @@ body {
     color: rgba(255, 255, 255, 0.3);
     font-size: 13px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-/* === SEÇÕES COM IMAGEM === */
-.secao-conteudo {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    margin-top: 10px;
-}
-
-.secao-conteudo-invertido {
-    flex-direction: row-reverse;
-}
-
-.secao-conteudo p {
-    margin-top: 0;
-    flex: 1;
-}
-
-.secao-imagem {
-    width: 420px;
-    height: auto;
-    object-fit: contain;
-    flex-shrink: 0;
-    border-radius: 12px;
-    transition: transform 0.3s, filter 0.3s;
-    filter: brightness(0.95);
-}
-
-.secao-imagem:hover {
-    transform: scale(1.03) translateY(-4px);
-    filter: brightness(1.05);
 }
