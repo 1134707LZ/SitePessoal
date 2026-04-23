@@ -11,7 +11,24 @@ html {
 body {
     font-family: Arial, sans-serif;
     min-height: 100vh;
-    background: radial-gradient(ellipse at 50% 0%, #1e3a5f 0%, #1a2a3a 50%, #111d2b 100%);
+    background-color: #1a2a3a;
+    background-image:
+        linear-gradient(rgba(74, 158, 218, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 158, 218, 0.06) 1px, transparent 1px),
+        radial-gradient(ellipse at 50% 0%, #1e3a5f 0%, #1a2a3a 50%, #111d2b 100%);
+    background-size: 60px 60px, 60px 60px, 100% 100%;
+    position: relative;
+}
+
+/* === CANVAS DAS PARTÍCULAS === */
+#particulas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
 }
 
 /* === Barra de navegação === */
@@ -26,6 +43,7 @@ body {
     top: 0;
     z-index: 100;
     transition: box-shadow 0.3s, background-color 0.3s;
+    flex-wrap: wrap;
 }
 
 .navbar-scrolled {
@@ -33,7 +51,7 @@ body {
     background-color: #0a0a0a;
 }
 
-/* === NOME COM GRADIENTE === */
+/* === NOME === */
 .nav-nome {
     font-size: 22px;
     white-space: nowrap;
@@ -46,13 +64,25 @@ body {
     letter-spacing: 2px;
 }
 
+/* === BOTÃO HAMBURGUER (só aparece no mobile) === */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    font-size: 20px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
 .nav-botoes {
     display: flex;
     gap: 16px;
     flex-wrap: nowrap;
 }
 
-/* === BOTÕES COM HOVER RICO === */
+/* === BOTÕES === */
 .btn-nav {
     background-color: transparent;
     color: white;
@@ -84,6 +114,8 @@ body {
     align-items: center;
     gap: 60px;
     min-height: 320px;
+    position: relative;
+    z-index: 1;
 }
 
 .foto-perfil {
@@ -136,14 +168,8 @@ body {
 .logo-item:nth-child(3) { animation-delay: 0.4s; }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .logo-item img {
@@ -174,6 +200,8 @@ body {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease, transform 0.6s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .secao.visivel {
@@ -182,7 +210,7 @@ body {
 }
 
 .secao-alt {
-    background-color: #162230;
+    background-color: rgba(22, 34, 48, 0.85);
 }
 
 .secao h2 {
@@ -324,4 +352,97 @@ body {
     color: rgba(255, 255, 255, 0.3);
     font-size: 13px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    z-index: 1;
+}
+
+/* =============================
+   MEDIA QUERIES — MOBILE
+   ============================= */
+@media (max-width: 768px) {
+
+    /* Navbar */
+    .navbar {
+        padding: 16px 20px;
+        position: relative;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-botoes {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        padding: 12px 0 4px;
+    }
+
+    .nav-botoes.aberto {
+        display: flex;
+    }
+
+    .btn-nav {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .nome {
+        font-size: 18px;
+        letter-spacing: 1px;
+    }
+
+    /* Home */
+    .conteudo {
+        flex-direction: column;
+        align-items: center;
+        padding: 30px 20px;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .foto-perfil {
+        width: 160px;
+        height: 160px;
+    }
+
+    .logos-grid {
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .logo-item img {
+        height: 45px;
+    }
+
+    /* Seções */
+    .secao {
+        padding: 50px 20px;
+    }
+
+    .secao p {
+        font-size: 15px;
+        max-width: 100%;
+    }
+
+    /* Seções com imagem — empilha verticalmente */
+    .secao-conteudo,
+    .secao-conteudo.secao-conteudo-invertido {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .secao-imagem {
+        width: 100%;
+        max-width: 340px;
+        margin: 0 auto;
+    }
+
+    /* Contato */
+    .contato-card {
+        min-width: unset;
+        width: 100%;
+    }
 }

@@ -8,10 +8,14 @@
 </head>
 <body>
 
+    <!-- Canvas das partículas -->
+    <canvas id="particulas"></canvas>
+
     <!-- Barra de navegação -->
     <nav class="navbar">
         <div class="nav-nome nome">Lucas Albigo Zilio</div>
-        <div class="nav-botoes">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="nav-botoes" id="navBotoes">
             <a href="#sobre" class="btn-nav">Sobre mim</a>
             <a href="#experiencia" class="btn-nav">Experiência</a>
             <a href="#funcaoAcademica" class="btn-nav">Função Acadêmica</a>
@@ -111,6 +115,89 @@
     </footer>
 
     <script>
+        // === MENU MOBILE ===
+        const menuToggle = document.getElementById('menuToggle');
+        const navBotoes = document.getElementById('navBotoes');
+
+        menuToggle.addEventListener('click', () => {
+            navBotoes.classList.toggle('aberto');
+        });
+
+        // Fechar menu ao clicar em um link
+        document.querySelectorAll('.btn-nav').forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBotoes.classList.remove('aberto');
+            });
+        });
+
+        // === PARTÍCULAS ===
+        const canvas = document.getElementById('particulas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = document.body.scrollHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+            criarParticulas();
+        });
+
+        let particulas = [];
+
+        function criarParticulas() {
+            particulas = [];
+            const quantidade = Math.floor((canvas.width * canvas.height) / 18000);
+            for (let i = 0; i < quantidade; i++) {
+                particulas.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    raio: Math.random() * 1.5 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    opacidade: Math.random() * 0.4 + 0.1
+                });
+            }
+        }
+
+        function desenharLinhas() {
+            for (let i = 0; i < particulas.length; i++) {
+                for (let j = i + 1; j < particulas.length; j++) {
+                    const dx = particulas[i].x - particulas[j].x;
+                    const dy = particulas[i].y - particulas[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(74, 158, 218, ${0.12 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particulas[i].x, particulas[i].y);
+                        ctx.lineTo(particulas[j].x, particulas[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animar() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particulas.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.raio, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(96, 165, 250, ${p.opacidade})`;
+                ctx.fill();
+            });
+            desenharLinhas();
+            requestAnimationFrame(animar);
+        }
+
+        criarParticulas();
+        animar();
+
+        // === ANIMAÇÃO DAS SEÇÕES ===
         const secoes = document.querySelectorAll('.secao');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -121,6 +208,7 @@
         }, { threshold: 0.15 });
         secoes.forEach(s => observer.observe(s));
 
+        // === NAVBAR SCROLL ===
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
             if (window.scrollY > 10) {
