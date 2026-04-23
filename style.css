@@ -356,9 +356,8 @@ body {
     z-index: 1;
 }
 
-/* =============================
-   MEDIA QUERIES — MOBILE
-   ============================= */
+/* MEDIA QUERIES — MOBILE */
+
 @media (max-width: 768px) {
 
     /* Navbar */
